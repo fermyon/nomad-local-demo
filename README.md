@@ -1,11 +1,21 @@
 # Nomad demo
 
-Start local bindle server
-
 Start consul, nomad, vault, and traefik
 
 ```
 $ ./run_servers.sh
+```
+
+Start local bindle server
+
+```
+$ nomad run job/bindle.nomad
+```
+
+Set BINDLE_URL in your shell
+
+```
+$ export BINDLE_URL="http://bindle.local.reese.io:8088/v1"
 ```
 
 Build example bindle and push to bindle server
