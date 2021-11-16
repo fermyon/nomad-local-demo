@@ -10,7 +10,7 @@ job "bindle" {
     }
 
     service {
-      name = "nomad"
+      name = "bindle"
       port = "http"
 
       tags = [
@@ -31,7 +31,7 @@ job "bindle" {
       driver = "raw_exec"
 
       env {
-        RUST_LOG = "debug"
+        RUST_LOG = "error,bindle=debug"
       }
 
       config {
