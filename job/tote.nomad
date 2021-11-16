@@ -33,7 +33,7 @@ job "tote" {
 
       tags = [
         "traefik.enable=true",
-        "traefik.http.routers.http.rule=Host(`tote.local.reese.io`)",
+        "traefik.http.routers.tote.rule=Host(`tote.local.reese.io`)",
       ]
 
       check {
@@ -65,7 +65,7 @@ EOH
 
       env {
         RUST_LOG   = "wagi=debug"
-        BINDLE_URL= "http://bindle.local.reese.io:8088/v1"
+        BINDLE_URL = "http://bindle.local.reese.io:8088/v1"
       }
 
       config {

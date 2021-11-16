@@ -15,7 +15,7 @@ job "bindle" {
 
       tags = [
         "traefik.enable=true",
-        "traefik.http.routers.http.rule=Host(`bindle.local.reese.io`)",
+        "traefik.http.routers.bindle.rule=Host(`bindle.local.reese.io`)",
       ]
 
       check {
