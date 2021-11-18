@@ -1,15 +1,9 @@
 # Nomad demo
 
-Start consul, nomad, vault, and traefik
+Start consul, nomad, and vault, traefik, and bindle
 
 ```
 $ ./run_servers.sh
-```
-
-Start local bindle server
-
-```
-$ nomad run job/bindle.nomad
 ```
 
 Set BINDLE_URL in your shell

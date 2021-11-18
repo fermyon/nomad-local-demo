@@ -13,8 +13,8 @@ require() {
 
 require nomad
 require consul
-require traefik
 require vault
+require bindle
 
 cleanup() {
   echo
@@ -82,6 +82,9 @@ done
 echo "Starting traefik job..."
 nomad run job/traefik.nomad
 
+echo "Starting bindle job..."
+nomad run job/bindle.nomad
+
 echo
 echo "Dashboards"
 echo "----------"
@@ -99,6 +102,7 @@ echo "    export NOMAD_ADDR=http://127.0.0.1:4646"
 echo "    export VAULT_ADDR=${VAULT_ADDR}"
 echo "    export VAULT_TOKEN=$(<data/vault/token)"
 echo "    export VAULT_UNSEAL=$(<data/vault/unseal)"
+echo "    export BINDLE_URL=http://bindle.local.fermyon.link:8088/v1"
 echo
 echo "Ctrl+C to exit."
 echo
