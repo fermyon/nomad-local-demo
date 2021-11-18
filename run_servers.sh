@@ -79,8 +79,8 @@ while ! nomad server members 2>/dev/null | grep -q alive; do
   sleep 2
 done
 
-echo "Starting traefik..."
-traefik --configfile traefik/traefik.toml >log/traefik.log &
+echo "Starting traefik job..."
+nomad run job/traefik.nomad
 
 echo
 echo "Dashboards"
