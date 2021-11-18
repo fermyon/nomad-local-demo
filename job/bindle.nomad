@@ -15,16 +15,23 @@ job "bindle" {
 
       tags = [
         "traefik.enable=true",
-        "traefik.http.routers.bindle.rule=Host(`bindle.local.reese.io`)",
+        "traefik.http.routers.bindle.rule=Host(`bindle.local.fermyon.link`)",
       ]
 
+      # only works on bindle main
+      # check {
+      #   type     = "http"
+      #   path     = "/healthz"
+      #   interval = "10s"
+      #   timeout  = "2s"
+      # }
+
       check {
-        type     = "http"
-        # change to "/healthz" after https://github.com/deislabs/bindle/pull/259
-        path     = "/v1/healthz"
-        interval = "10s"
-        timeout  = "2s"
-      }
+          name     = "alive"
+          type     = "tcp"
+          interval = "10s"
+          timeout  = "2s"
+        }
     }
 
     task "server" {

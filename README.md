@@ -15,7 +15,7 @@ $ nomad run job/bindle.nomad
 Set BINDLE_URL in your shell
 
 ```
-$ export BINDLE_URL="http://bindle.local.reese.io:8088/v1"
+$ export BINDLE_URL="http://bindle.local.fermyon.link:8088/v1"
 ```
 
 Build example bindle and push to bindle server
@@ -50,7 +50,7 @@ Nov 15 10:38:13.846  INFO wagi::wasm_runner: Using log dir log_dir=local/logs/8a
 Test the endpoint
 
 ```
-$ curl tote.local.reese.io:8088
+$ curl tote.local.fermyon.link:8088
 Hello, world!
 ```
 
