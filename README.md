@@ -23,6 +23,7 @@ $ hippo bindle -v production HIPPOFACTS
 Run the nomad job
 
 ```
+$ cd ..
 $ nomad run job/tote.nomad
 ```
 
