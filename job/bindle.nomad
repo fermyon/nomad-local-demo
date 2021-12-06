@@ -34,7 +34,7 @@ job "bindle" {
         }
     }
 
-    task "server" {
+    task "bindle" {
       driver = "raw_exec"
 
       env {
