@@ -97,7 +97,7 @@ echo "Logs are stored in ./log"
 echo
 echo "Export these into your shell"
 echo
-echo "    export CONSUL_ADDR=http://${IP_ADDRESS}:8500"
+echo "    export CONSUL_HTTP_ADDR=http://${IP_ADDRESS}:8500"
 echo "    export NOMAD_ADDR=http://127.0.0.1:4646"
 echo "    export VAULT_ADDR=${VAULT_ADDR}"
 echo "    export VAULT_TOKEN=$(<data/vault/token)"
