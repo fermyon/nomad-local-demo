@@ -57,10 +57,6 @@ if [ ! -f data/vault/unseal ]; then
   awk '/^Unseal Key:/ { print $NF }' <log/vault.log >data/vault/unseal
 fi
 
-vault policy write nomad-server vault/nomad-server-policy.hcl
-vault write /auth/token/roles/nomad-cluster @vault/nomad-cluster-role.json
-vault token create -policy nomad-server -period 72h -orphan
-
 vault secrets enable kv
 vault kv put kv/tote foo=bar
 
