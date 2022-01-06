@@ -31,6 +31,8 @@ job "traefik" {
     task "traefik" {
       driver = "raw_exec"
 
+      # PRO TIP: Comment out the artifact block if you have the traefik binary
+      # on your local machine for faster startup time
       artifact {
         source = "https://github.com/traefik/traefik/releases/download/v2.5.4/traefik_v2.5.4_${attr.os.name}_${attr.cpu.arch}.tar.gz"
       }
