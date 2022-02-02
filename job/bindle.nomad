@@ -27,11 +27,11 @@ job "bindle" {
       # }
 
       check {
-          name     = "alive"
-          type     = "tcp"
-          interval = "10s"
-          timeout  = "2s"
-        }
+        name     = "alive"
+        type     = "tcp"
+        interval = "10s"
+        timeout  = "2s"
+      }
     }
 
     task "bindle" {
@@ -46,6 +46,9 @@ job "bindle" {
         args = [
           "--unauthenticated",
           "--address", "${NOMAD_IP_http}:${NOMAD_PORT_http}",
+          # PRO TIP: set to an absolute directory to persist bindles when job
+          # is restarted
+          "--directory", "local/bindle",
         ]
       }
     }

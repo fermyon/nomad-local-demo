@@ -3,7 +3,7 @@ job "blog" {
   type        = "service"
 
   group "blog" {
-    count = 
+    count = 1
 
     network {
       port "http" {}
@@ -19,10 +19,10 @@ job "blog" {
       ]
 
       check {
-        name = "alive"
-        type = "tcp"
+        name     = "alive"
+        type     = "tcp"
         interval = "10s"
-        timeout = "2s"
+        timeout  = "2s"
       }
     }
 

@@ -39,7 +39,7 @@ job "traefik" {
 
       config {
         command = "traefik"
-        args    = [
+        args = [
           "--configfile", "local/traefik.toml"
         ]
       }

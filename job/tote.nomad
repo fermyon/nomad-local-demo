@@ -37,12 +37,11 @@ job "tote" {
       ]
 
       check {
-        type     = "http"
-        path     = "/healthz"
+        name     = "alive"
+        type     = "tcp"
         interval = "10s"
         timeout  = "2s"
       }
-    }
 
     task "server" {
       driver = "raw_exec"
