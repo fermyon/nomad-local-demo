@@ -71,3 +71,17 @@ Get wagi module logs from the allocation's filesystem
 $ nomad alloc fs ee0974b9 server/local/logs/8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1/module.stderr
 Error log for tote
 ```
+
+## Troubleshooting
+
+If you run into an IPv6 issue you can set IPv6 to link-local for an interface.
+
+```
+networksetup -setv6linklocal Wi-Fi
+```
+
+To get a list of interface names
+
+```
+networksetup -listallnetworkservices
+```
