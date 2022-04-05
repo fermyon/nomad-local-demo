@@ -48,7 +48,7 @@ job "bindle" {
           "--address", "${NOMAD_IP_http}:${NOMAD_PORT_http}",
           # PRO TIP: set to an absolute directory to persist bindles when job
           # is restarted
-          "--directory", "local/bindle",
+          "--directory", "${NOMAD_TASK_DIR}",
         ]
       }
     }
