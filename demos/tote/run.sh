@@ -17,8 +17,8 @@ require hippo
 vault secrets enable kv 2>/dev/null || :
 vault kv put kv/tote foo=bar
 
-cargo build-wasm --release
+cargo cargo build --target wasm32-wasi --release
 hippo bindle -v production HIPPOFACTS
 
 echo "Starting tote job..."
-nomad run job/tote.nomad
+nomad run tote.nomad
