@@ -34,7 +34,7 @@ IP_ADDRESS=$(ipconfig getifaddr en0)
 
 echo "Starting consul..."
 consul agent -dev \
-  -config-file consul/consul.hcl \
+  -config-file ./etc/consul.hcl \
   -bootstrap-expect 1 \
   -client '0.0.0.0' \
   -bind "${IP_ADDRESS}" \
@@ -43,7 +43,7 @@ consul agent -dev \
 echo "Starting vault..."
 vault server -dev \
   -dev-root-token-id "$VAULT_TOKEN" \
-  -config vault/vault.hcl \
+  -config ./etc/vault.hcl \
   &>log/vault.log &
 
 echo "Waiting for vault..."
@@ -57,12 +57,9 @@ if [ ! -f data/vault/unseal ]; then
   awk '/^Unseal Key:/ { print $NF }' <log/vault.log >data/vault/unseal
 fi
 
-vault secrets enable kv
-vault kv put kv/tote foo=bar
-
 echo "Starting nomad..."
 nomad agent -dev \
-  -config nomad/nomad.hcl \
+  -config ./etc/nomad.hcl \
   -network-interface en0 \
   -data-dir "${PWD}/data/nomad" \
   -consul-address "${IP_ADDRESS}:8500" \
