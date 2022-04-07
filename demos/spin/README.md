@@ -1,5 +1,7 @@
 # Spin docs website demo
 
+First install the spin binary by following the [quickstart](https://spin.fermyon.dev/quickstart/).
+
 ## Clone the spin repository
 
 ```
