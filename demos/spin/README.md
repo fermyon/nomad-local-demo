@@ -1,25 +1,30 @@
-# Fermyon website demo
+# Spin docs website demo
+
+## Clone the spin repository
+
+```
+git clone https://github.com/fermyon/spin.git
+cd spin/docs
+```
 
 ## Bundle it up
 
 ```
 export BINDLE_URL=http://bindle.local.fermyon.link:8088/v1
 
-spin bindle prepare --file spin.toml --staging-dir out
-
-bindle sign-invoice \
-  --out out/47ff40e9483bef56a2c2ace442f697ae1229cf7f3d48563b514c94185d226c4e/invoice.toml \
-  out/47ff40e9483bef56a2c2ace442f697ae1229cf7f3d48563b514c94185d226c4e/invoice.toml
-
-bindle push -p /Users/areese/p/src/github.com/fermyon/fermyon.com/out spin-fermyon.com/0.1.0
+spin bindle push --file spin.toml
 ```
 
-## Nomad
+## Run the nomad job
 
 ```
-nomad run job/website-spin.nomad
-
-nomad logs -job website
+nomad run ./spin-docs.nomad
 ```
 
-[Party](http://fermyon.local.fermyon.link:8088)
+The site will be accessible at [http://spin-docs.local.fermyon.link:8088](http://spin-docs.local.fermyon.link:8088)
+
+## Check the logs
+
+```
+nomad logs -stderr -job spin-docs
+```
