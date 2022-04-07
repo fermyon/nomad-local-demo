@@ -1,11 +1,11 @@
 # Nomad demo
 
-## Install Prerequisites
+## Install prerequisites
 
 Download nomad, consul, vault, traefik, bindle, and the hippo CLI and make these binaries
 available in your $PATH.
 
-## Start Necessary Services
+## Start necessary services
 
 Start consul, nomad, vault, traefik, and bindle
 
@@ -19,7 +19,7 @@ Set BINDLE_URL in your shell
 $ export BINDLE_URL="http://bindle.local.fermyon.link:8088/v1"
 ```
 
-## Build and Push Example Application
+## Build and push example application
 
 Build example bindle and push to bindle server
 
@@ -30,7 +30,7 @@ $ cargo cargo build --target wasm32-wasi --release
 $ hippo bindle -v production HIPPOFACTS
 ```
 
-## Deploy App in Nomad
+## Deploy app in nomad
 
 Run the nomad job
 
@@ -38,7 +38,7 @@ Run the nomad job
 $ nomad run tote.nomad
 ```
 
-## Inspect Running Application in Nomad
+## Inspect running application in nomad
 
 Get the job status and the allocation ID's
 
@@ -55,7 +55,7 @@ Nov 15 10:38:13.826 DEBUG wagi::wagi_app: Env vars are set env_vars={"FOO": "bar
 Nov 15 10:38:13.846  INFO wagi::wasm_runner: Using log dir log_dir=local/logs/8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1
 ```
 
-## Test Application Endpoint
+## Test application endpoint
 
 Test the endpoint using curl
 
