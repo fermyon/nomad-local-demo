@@ -24,8 +24,8 @@ $ export BINDLE_URL="http://bindle.local.fermyon.link:8088/v1"
 Build example bindle and push to bindle server
 
 ```
-$ cd tote
-$ cargo build-wasm --release
+$ cd demos/tote
+$ cargo cargo build --target wasm32-wasi --release
 # push bindle to bindle registry with hippo
 $ hippo bindle -v production HIPPOFACTS
 ```
@@ -35,8 +35,7 @@ $ hippo bindle -v production HIPPOFACTS
 Run the nomad job
 
 ```
-$ cd ..
-$ nomad run job/tote.nomad
+$ nomad run tote.nomad
 ```
 
 ## Inspect Running Application in Nomad
