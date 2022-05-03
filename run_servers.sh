@@ -78,6 +78,22 @@ nomad run job/traefik.nomad
 echo "Starting bindle job..."
 nomad run job/bindle.nomad
 
+echo "Starting hippo job..."
+case "${OSTYPE}" in
+darwin*)
+  echo "Hippo on MacOS requires raw_exec support"
+  echo "  ref: https://github.com/deislabs/hippo/pull/695"
+  nomad run job/hippo-macos.nomad
+	;;
+linux*)
+  nomad run job/hippo-linux.nomad
+	;;
+*)
+  echo "Hippo is only started on MacOS and Linux"
+  ;;
+esac
+
+
 echo
 echo "Dashboards"
 echo "----------"
@@ -85,6 +101,7 @@ echo "Consul:  http://localhost:8500"
 echo "Nomad:   http://localhost:4646"
 echo "Vault:   http://localhost:8200"
 echo "Traefik: http://localhost:8081"
+echo "Hippo:   http://hippo.local.fermyon.link:8088"
 echo
 echo "Logs are stored in ./log"
 echo
@@ -96,6 +113,7 @@ echo "    export VAULT_ADDR=${VAULT_ADDR}"
 echo "    export VAULT_TOKEN=$(<data/vault/token)"
 echo "    export VAULT_UNSEAL=$(<data/vault/unseal)"
 echo "    export BINDLE_URL=http://bindle.local.fermyon.link:8088/v1"
+echo "    export HIPPO_URL=http://hippo.local.fermyon.link:8088"
 echo
 echo "Ctrl+C to exit."
 echo
