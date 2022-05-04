@@ -55,7 +55,6 @@ job "hippo" {
       env {
         Hippo__PlatformDomain = var.domain
         Scheduler__Driver     = "nomad"
-        Hippo__PlatformDomain = "local.fermyon.link"
 
         # Database Driver: inmemory, sqlite, postgresql
         Database__Driver            = "sqlite"
