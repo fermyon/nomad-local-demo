@@ -11,10 +11,11 @@ require() {
   fi
 }
 
-require nomad
-require consul
-require vault
 require bindle
+require consul
+require nomad
+require traefik
+require vault
 
 cleanup() {
   echo
