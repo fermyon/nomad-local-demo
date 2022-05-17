@@ -14,7 +14,7 @@ require() {
 require nomad
 require consul
 require vault
-require bindle
+require bindle-server
 
 cleanup() {
   echo
