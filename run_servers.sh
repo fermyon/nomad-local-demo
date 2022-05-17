@@ -18,7 +18,7 @@ require bindle
 
 cleanup() {
   echo
-  echo "Sutting down services"
+  echo "Shutting down services"
   kill $(jobs -p)
   wait
 }
