@@ -1,13 +1,7 @@
 variable "domain" {
   type        = string
-  default     = "hippo.local.fermyon.link"
+  default     = "traefik.localdomain:8088"
   description = "hostname"
-}
-
-variable "bindle_url" {
-  type        = string
-  default     = "http://bindle.local.fermyon.link:8088/v1"
-  description = "The Bindle server URL"
 }
 
 job "hippo" {
@@ -24,7 +18,7 @@ job "hippo" {
 
     network {
       port "http" {
-        static = 5000
+        static = 5309
       }
     }
 
@@ -34,7 +28,7 @@ job "hippo" {
 
       tags = [
         "traefik.enable=true",
-        "traefik.http.routers.hippo.rule=Host(`${var.domain}`)",
+        "traefik.http.routers.hippo.rule=Host(`hippo.${var.domain}`)",
       ]
 
       check {
@@ -49,25 +43,17 @@ job "hippo" {
       driver = "raw_exec"
 
       artifact {
-        source = "https://github.com/deislabs/hippo/releases/download/v0.7.0/hippo-server-linux-x64.tar.gz"
+        source = "https://github.com/deislabs/hippo/releases/download/v0.9.0/hippo-server-linux-x64.tar.gz"
       }
 
       env {
-        Hippo__PlatformDomain = var.domain
-        Scheduler__Driver     = "nomad"
+        Hippo__PlatformDomain          = var.domain
+        Database__Driver               = "sqlite"
+        ConnectionStrings__Database    = "Data Source=hippo.db;Cache=Shared"
 
-        # Database Driver: inmemory, sqlite, postgresql
-        Database__Driver            = "sqlite"
-        ConnectionStrings__Database = "Data Source=hippo.db;Cache=Shared"
-
-        # Database__Driver            = "postgresql"
-        # ConnectionStrings__Database = "Host=localhost;Username=postgres;Password=postgres;Database=hippo"
-
-        Bindle__Url = var.bindle_url
-
-        Jwt__Key      = "ceci n'est pas une jeton"
-        Jwt__Issuer   = "localhost"
-        Jwt__Audience = "localhost"
+        Jwt__Key                       = "ceci n'est pas une jeton"
+        Jwt__Issuer                    = var.domain
+        Jwt__Audience                  = var.domain
 
         Kestrel__Endpoints__Https__Url = "http://${NOMAD_IP_http}:${NOMAD_PORT_http}"
       }

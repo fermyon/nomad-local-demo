@@ -11,7 +11,7 @@ require() {
   fi
 }
 
-require bindle
+require bindle-server
 require consul
 require nomad
 require traefik
@@ -19,7 +19,7 @@ require vault
 
 cleanup() {
   echo
-  echo "Sutting down services"
+  echo "Shutting down services"
   kill $(jobs -p)
   wait
 }
@@ -31,7 +31,7 @@ mkdir -p log
 
 # https://www.nomadproject.io/docs/faq#q-how-to-connect-to-my-host-network-when-using-docker-desktop-windows-and-macos
 
-IP_ADDRESS=$(ipconfig getifaddr en0)
+IP_ADDRESS=127.0.0.1
 
 echo "Starting consul..."
 consul agent -dev \
@@ -61,10 +61,9 @@ fi
 echo "Starting nomad..."
 nomad agent -dev \
   -config ./etc/nomad.hcl \
-  -network-interface en0 \
   -data-dir "${PWD}/data/nomad" \
   -consul-address "${IP_ADDRESS}:8500" \
-  -vault-address http://127.0.0.1:8200 \
+  -vault-address http://${IP_ADDRESS}:8200 \
   -vault-token "${VAULT_TOKEN}" \
    &>log/nomad.log &
 
@@ -102,19 +101,19 @@ echo "Consul:  http://localhost:8500"
 echo "Nomad:   http://localhost:4646"
 echo "Vault:   http://localhost:8200"
 echo "Traefik: http://localhost:8081"
-echo "Hippo:   http://hippo.local.fermyon.link:8088"
+echo "Hippo:   http://localhost:5309"
 echo
 echo "Logs are stored in ./log"
 echo
 echo "Export these into your shell"
 echo
-echo "    export CONSUL_HTTP_ADDR=http://${IP_ADDRESS}:8500"
-echo "    export NOMAD_ADDR=http://127.0.0.1:4646"
+echo "    export CONSUL_HTTP_ADDR=http://localhost:8500"
+echo "    export NOMAD_ADDR=http://localhost:4646"
 echo "    export VAULT_ADDR=${VAULT_ADDR}"
 echo "    export VAULT_TOKEN=$(<data/vault/token)"
 echo "    export VAULT_UNSEAL=$(<data/vault/unseal)"
-echo "    export BINDLE_URL=http://bindle.local.fermyon.link:8088/v1"
-echo "    export HIPPO_URL=http://hippo.local.fermyon.link:8088"
+echo "    export BINDLE_URL=http://localhost:8080/v1"
+echo "    export HIPPO_URL=http://localhost:5309"
 echo
 echo "Ctrl+C to exit."
 echo

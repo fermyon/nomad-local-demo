@@ -6,7 +6,9 @@ job "bindle" {
     count = 1
 
     network {
-      port "http" {}
+      port "http" {
+        static = 8080
+      }
     }
 
     service {
@@ -15,7 +17,7 @@ job "bindle" {
 
       tags = [
         "traefik.enable=true",
-        "traefik.http.routers.bindle.rule=Host(`bindle.local.fermyon.link`)",
+        "traefik.http.routers.bindle.rule=Host(`bindle.traefik.localdomain`)",
       ]
 
       # only works on bindle main
