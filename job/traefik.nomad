@@ -8,7 +8,7 @@ job "traefik" {
 
     network {
       port "http" {
-        static = 8088
+        static = 80
       }
 
       port "api" {
@@ -31,12 +31,6 @@ job "traefik" {
     task "traefik" {
       driver = "raw_exec"
 
-      # PRO TIP: Comment out the artifact block if you have the traefik binary
-      # on your local machine for faster startup time
-      artifact {
-        source = "https://github.com/traefik/traefik/releases/download/v2.5.4/traefik_v2.5.4_${attr.os.name}_${attr.cpu.arch}.tar.gz"
-      }
-
       config {
         command = "traefik"
         args = [
@@ -48,7 +42,7 @@ job "traefik" {
         data = <<EOF
 [entryPoints]
     [entryPoints.http]
-    address = ":8088"
+    address = ":80"
     [entryPoints.traefik]
     address = ":8081"
 

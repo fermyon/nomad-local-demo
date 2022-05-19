@@ -1,3 +1,9 @@
+variable "domain" {
+  type        = string
+  default     = "local.fermyon.link"
+  description = "hostname"
+}
+
 job "bindle" {
   datacenters = ["dc1"]
   type        = "service"
@@ -6,7 +12,9 @@ job "bindle" {
     count = 1
 
     network {
-      port "http" {}
+      port "http" {
+        static = 8080
+      }
     }
 
     service {
@@ -15,7 +23,7 @@ job "bindle" {
 
       tags = [
         "traefik.enable=true",
-        "traefik.http.routers.bindle.rule=Host(`bindle.local.fermyon.link`)",
+        "traefik.http.routers.bindle.rule=Host(`bindle.${var.domain}`)",
       ]
 
       # only works on bindle main
