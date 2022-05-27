@@ -11,15 +11,15 @@ require() {
   fi
 }
 
-require bindle
 require consul
 require nomad
 require traefik
 require vault
+require bindle-server
 
 cleanup() {
   echo
-  echo "Sutting down services"
+  echo "Shutting down services"
   kill $(jobs -p)
   wait
 }
