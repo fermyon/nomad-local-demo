@@ -11,8 +11,9 @@ require() {
   fi
 }
 
-require nomad
 require consul
+require nomad
+require traefik
 require vault
 require bindle-server
 
