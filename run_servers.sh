@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-export VAULT_ADDR=http://localhost:8200
 export VAULT_TOKEN=devroot
 
 require() {
@@ -11,11 +10,11 @@ require() {
   fi
 }
 
+require bindle-server
 require consul
 require nomad
 require traefik
 require vault
-require bindle-server
 
 cleanup() {
   echo
@@ -29,9 +28,13 @@ trap cleanup EXIT
 rm -rf ./data
 mkdir -p log
 
-# https://www.nomadproject.io/docs/faq#q-how-to-connect-to-my-host-network-when-using-docker-desktop-windows-and-macos
 
-IP_ADDRESS=$(ipconfig getifaddr en0)
+IP_ADDRESS=127.0.0.1
+# https://www.nomadproject.io/docs/faq#q-how-to-connect-to-my-host-network-when-using-docker-desktop-windows-and-macos
+if command -v ipconfig &> /dev/null
+then
+  IP_ADDRESS=$(ipconfig getifaddr en0)
+fi
 
 echo "Starting consul..."
 consul agent -dev \
@@ -58,13 +61,20 @@ if [ ! -f data/vault/unseal ]; then
   awk '/^Unseal Key:/ { print $NF }' <log/vault.log >data/vault/unseal
 fi
 
+# NOTE(bacongobbler): nomad MUST run as root for the exec driver to work on Linux.
+# https://github.com/deislabs/hippo/blob/de73ae52d606c0a2351f90069e96acea831281bc/src/Infrastructure/Jobs/NomadJob.cs#L28
+# https://www.nomadproject.io/docs/drivers/exec#client-requirements
+case "$OSTYPE" in
+ linux*) SUDO=sudo ;;
+ *) SUDO= ;;
+esac
+
 echo "Starting nomad..."
-nomad agent -dev \
+${SUDO} nomad agent -dev \
   -config ./etc/nomad.hcl \
-  -network-interface en0 \
   -data-dir "${PWD}/data/nomad" \
   -consul-address "${IP_ADDRESS}:8500" \
-  -vault-address http://127.0.0.1:8200 \
+  -vault-address "http://${IP_ADDRESS}:8200" \
   -vault-token "${VAULT_TOKEN}" \
    &>log/nomad.log &
 
@@ -94,27 +104,26 @@ linux*)
   ;;
 esac
 
-
 echo
 echo "Dashboards"
 echo "----------"
-echo "Consul:  http://localhost:8500"
-echo "Nomad:   http://localhost:4646"
-echo "Vault:   http://localhost:8200"
-echo "Traefik: http://localhost:8081"
-echo "Hippo:   http://hippo.local.fermyon.link:8088"
+echo "Consul:  http://${IP_ADDRESS}:8500"
+echo "Nomad:   http://${IP_ADDRESS}:4646"
+echo "Vault:   http://${IP_ADDRESS}:8200"
+echo "Traefik: http://${IP_ADDRESS}:8081"
+echo "Hippo:   http://hippo.local.fermyon.link"
 echo
 echo "Logs are stored in ./log"
 echo
 echo "Export these into your shell"
 echo
 echo "    export CONSUL_HTTP_ADDR=http://${IP_ADDRESS}:8500"
-echo "    export NOMAD_ADDR=http://127.0.0.1:4646"
-echo "    export VAULT_ADDR=${VAULT_ADDR}"
+echo "    export NOMAD_ADDR=http://${IP_ADDRESS}:4646"
+echo "    export VAULT_ADDR=http://${IP_ADDRESS}:8200"
 echo "    export VAULT_TOKEN=$(<data/vault/token)"
 echo "    export VAULT_UNSEAL=$(<data/vault/unseal)"
-echo "    export BINDLE_URL=http://bindle.local.fermyon.link:8088/v1"
-echo "    export HIPPO_URL=http://hippo.local.fermyon.link:8088"
+echo "    export BINDLE_URL=http://bindle.local.fermyon.link/v1"
+echo "    export HIPPO_URL=http://hippo.local.fermyon.link"
 echo
 echo "Ctrl+C to exit."
 echo

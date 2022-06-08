@@ -8,7 +8,7 @@ job "traefik" {
 
     network {
       port "http" {
-        static = 8088
+        static = 80
       }
 
       port "api" {
@@ -42,7 +42,7 @@ job "traefik" {
         data = <<EOF
 [entryPoints]
     [entryPoints.http]
-    address = ":8088"
+    address = ":80"
     [entryPoints.traefik]
     address = ":8081"
 

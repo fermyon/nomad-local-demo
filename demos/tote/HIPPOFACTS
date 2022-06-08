@@ -1,8 +1,0 @@
-[bindle]
-name = "tote"
-version = "0.1.0"
-authors = ["Adam Reese"]
-
-[[handler]]
-route = "/"
-name = "target/wasm32-wasi/release/tote.wasm"
