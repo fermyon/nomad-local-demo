@@ -43,7 +43,7 @@ job "hippo" {
       driver = "raw_exec"
 
       artifact {
-        source = "https://github.com/deislabs/hippo/releases/download/v0.10.0/hippo-server-osx-x64.tar.gz"
+        source = "https://github.com/deislabs/hippo/releases/download/v0.15.1/hippo-server-osx-x64.tar.gz"
       }
 
       env {
