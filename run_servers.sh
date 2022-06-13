@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-export VAULT_TOKEN=devroot
-
 require() {
   if ! hash "$1" &>/dev/null; then
     echo "'$1' not found in PATH"
@@ -14,7 +12,6 @@ require bindle-server
 require consul
 require nomad
 require traefik
-require vault
 
 cleanup() {
   echo
@@ -34,23 +31,6 @@ consul agent -dev \
   -client '0.0.0.0' \
   &>log/consul.log &
 
-echo "Starting vault..."
-vault server -dev \
-  -dev-root-token-id "$VAULT_TOKEN" \
-  -config ./etc/vault.hcl \
-  &>log/vault.log &
-
-echo "Waiting for vault..."
-while ! grep -q 'Unseal Key' <log/vault.log; do
-  sleep 2
-done
-
-echo "Storing unseal token in ./data/vault/unseal"
-if [ ! -f data/vault/unseal ]; then
-  awk '/^Root Token:/ { print $NF }' <log/vault.log >data/vault/token
-  awk '/^Unseal Key:/ { print $NF }' <log/vault.log >data/vault/unseal
-fi
-
 # NOTE(bacongobbler): nomad MUST run as root for the exec driver to work on Linux.
 # https://github.com/deislabs/hippo/blob/de73ae52d606c0a2351f90069e96acea831281bc/src/Infrastructure/Jobs/NomadJob.cs#L28
 # https://www.nomadproject.io/docs/drivers/exec#client-requirements
@@ -64,8 +44,6 @@ ${SUDO} nomad agent -dev \
   -config ./etc/nomad.hcl \
   -data-dir "${PWD}/data/nomad" \
   -consul-address "127.0.0.1:8500" \
-  -vault-address "http://127.0.0.1:8200" \
-  -vault-token "${VAULT_TOKEN}" \
   &>log/nomad.log &
 
 echo "Waiting for nomad..."
@@ -106,9 +84,6 @@ echo "Export these into your shell"
 echo
 echo "    export CONSUL_HTTP_ADDR=http://localhost:8500"
 echo "    export NOMAD_ADDR=http://localhost:4646"
-echo "    export VAULT_ADDR=http://localhost:8200"
-echo "    export VAULT_TOKEN=$(<data/vault/token)"
-echo "    export VAULT_UNSEAL=$(<data/vault/unseal)"
 echo "    export BINDLE_URL=http://bindle.local.fermyon.link/v1"
 echo "    export HIPPO_URL=http://hippo.local.fermyon.link"
 echo

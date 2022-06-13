@@ -22,12 +22,6 @@ client {
   }
 }
 
-vault {
-  enabled          = true
-  tls_skip_verify  = true
-  create_from_role = "nomad-cluster"
-}
-
 telemetry {
   statsd_address             = "10.10.10.133:9125"
   publish_allocation_metrics = true
