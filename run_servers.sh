@@ -92,8 +92,6 @@ nomad run job/bindle.nomad
 echo "Starting hippo job..."
 case "${OSTYPE}" in
 darwin*)
-  echo "Hippo on MacOS requires raw_exec support"
-  echo "  ref: https://github.com/deislabs/hippo/pull/695"
   nomad run job/hippo-macos.nomad
 	;;
 linux*)
