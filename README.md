@@ -2,12 +2,12 @@
 
 ## Install prerequisites
 
-Download nomad, consul, vault, traefik, bindle, and the hippo CLI and make these binaries
+Download nomad, consul, traefik, bindle, and the hippo CLI and make these binaries
 available in your $PATH.
 
 ## Start necessary services
 
-Start consul, nomad, vault, traefik, and bindle
+Start consul, nomad, traefik, and bindle
 
 ```
 $ ./run_servers.sh
