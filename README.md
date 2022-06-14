@@ -1,3 +1,7 @@
+> **Note**
+> 
+> This has been moved to the `fermyon/installer` repo: https://github.com/fermyon/installer/tree/main/local
+
 # Nomad demo
 
 ## Install prerequisites
